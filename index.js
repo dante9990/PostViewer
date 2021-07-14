@@ -22,8 +22,8 @@ function fillPost  ()  {
             title.innerHTML = `<p>${post.title}</p>`
             comments.innerHTML = `<p class="comments">Комментарии</p>`
             comments.addEventListener('click', () => {
-                openModal()
-                createModal(post.title, post.body, post.id)
+                openModal(post.title, post.body, post.id)
+
             })
             action.addEventListener('click', () => {
                 deletePost(post.id)
@@ -47,13 +47,15 @@ function createModal(t, b, id) {
 
     getComment(id).then(dataCom => {
         dataCom.forEach(comment => {
+            const tbodyCom = document.getElementById('table-comments')
             const trCom = document.createElement('tr')
             const tdEmail = document.createElement('td')
             const tdComment = document.createElement('td')
             trCom.append(tdEmail, tdComment)
-            tbody.append(trCom)
+            tbodyCom.append(trCom)
             tdEmail.innerText = `${comment.email}`
             tdComment.innerText = `${comment.body}`
+            console.log(comment.postId)
         })
     })
 
@@ -89,9 +91,10 @@ function fillComment() {
 
 fillComment()
 
-const openModal = () => {
+const openModal = (title, body, id) => {
 
         document.getElementById('myModal').style.display = 'block'
+        createModal(title, body, id)
 
     document.querySelector('.close').addEventListener('click', () => {
         closeModal()
@@ -102,7 +105,9 @@ const openModal = () => {
 const closeModal = () => {
     document.getElementById('myModal').style.display = 'none'
     const tbody = document.getElementById('table-modal')
+    const tbodyCom = document.getElementById('table-comments')
     tbody.innerHTML = ''
+    tbodyCom.innerHTML = ''
 }
 
 async function deletePost(id){
@@ -111,6 +116,29 @@ async function deletePost(id){
     })
     if (response.ok) {
         return  fillPost()
-
     }
 }
+
+async function add(){
+    const data = {
+        title: document.getElementById('title').value,
+        body: document.getElementById('text').value
+    }
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    if (response.ok){
+        console.log(response.status)
+        fillPost()
+    }
+}
+
+const save = document.getElementById('save')
+
+save.addEventListener('click', () => {
+    add()
+})

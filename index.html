@@ -10,6 +10,13 @@
 </head>
 <body>
 <section>
+    <div>
+        <div class="inputs">
+            <input type="text" placeholder="Заголовок" id="title">
+            <input type="text" placeholder="Текст" id="text">
+        </div>
+        <div class="deleteButton" id="save"><p>Сохранить</p></div>
+    </div>
     <table>
         <thead>
         <tr>
@@ -19,11 +26,6 @@
         </tr>
         </thead>
         <tbody id="tbody">
-        <!--        <tr>-->
-        <!--            <td>test@mail.ru</td>-->
-        <!--            <td>Молчанов Петр Алексеевич</td>-->
-        <!--            <td>Оператор</td>-->
-        <!--        </tr>-->
         </tbody>
 
     </table>
@@ -32,9 +34,11 @@
     <!-- Modal content -->
     <div class="modal-content">
         <span class="close">&times;</span>
+        <div id="table-content">
         <table id="table-modal">
         </table>
-
+        <table id="table-comments"></table>
+    </div>
     </div>
 
 </div>
